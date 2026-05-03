@@ -1,0 +1,18 @@
+2026-05-03 10:38:27 | INFO     | test | Logging is working!
+2026-05-03 10:43:56 | INFO     | client | BinanceClient initialized. Connected to Futures Testnet.
+2026-05-03 10:43:57 | INFO     | client | Connection test passed. Binance Futures Testnet is reachable.
+2026-05-03 10:45:06 | INFO     | validators | Validation passed: symbol=BTCUSDT, side=BUY, type=MARKET, qty=0.001, price=None
+2026-05-03 10:49:46 | INFO     | client | BinanceClient initialized. Connected to Futures Testnet.
+2026-05-03 10:49:47 | INFO     | client | Connection test passed. Binance Futures Testnet is reachable.
+2026-05-03 10:50:38 | INFO     | client | BinanceClient initialized. Connected to Futures Testnet.
+2026-05-03 10:50:38 | INFO     | validators | Validation passed: symbol=BTCUSDT, side=BUY, type=MARKET, qty=0.001, price=None
+2026-05-03 10:51:24 | INFO     | client | BinanceClient initialized. Connected to Futures Testnet.
+2026-05-03 10:51:24 | INFO     | validators | Validation passed: symbol=BTCUSDT, side=BUY, type=LIMIT, qty=0.001, price=50000.0
+2026-05-03 10:51:56 | INFO     | client | BinanceClient initialized. Connected to Futures Testnet.
+2026-05-03 10:51:56 | INFO     | validators | Validation passed: symbol=BTCUSDT, side=BUY, type=LIMIT, qty=0.001, price=50000.0
+2026-05-03 10:52:15 | INFO     | client | BinanceClient initialized. Connected to Futures Testnet.
+2026-05-03 10:52:15 | WARNING  | cli | Validation error: Price is required for LIMIT orders. Use --price.
+2026-05-03 11:23:14 | INFO     | client | BinanceClient initialized. Connected to Futures Testnet.
+2026-05-03 11:23:14 | INFO     | validators | Validation passed: symbol=BTCUSDT, side=BUY, type=MARKET, qty=0.001, price=None
+2026-05-03 11:23:30 | INFO     | client | BinanceClient initialized. Connected to Futures Testnet.
+2026-05-03 11:23:30 | INFO     | validators | Validation passed: symbol=BTCUSDT, side=BUY, type=LIMIT, qty=0.001, price=50000.0
