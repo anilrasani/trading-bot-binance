@@ -11,7 +11,6 @@ logger = setup_logger("cli")
 
 
 def main():
-    # --- Define all CLI arguments ---
     parser = argparse.ArgumentParser(
         description="🤖 Binance Futures Testnet Trading Bot",
         formatter_class=argparse.RawTextHelpFormatter
@@ -31,7 +30,7 @@ def main():
         "--type",
         required=True,
         dest="order_type",
-        help="MARKET or LIMIT"
+        help="MARKET, LIMIT or STOP_LIMIT"
     )
     parser.add_argument(
         "--qty",
@@ -43,7 +42,14 @@ def main():
         "--price",
         required=False,
         type=float,
-        help="Price (only required for LIMIT orders)"
+        help="Limit price (required for LIMIT and STOP_LIMIT)"
+    )
+    parser.add_argument(
+        "--stop-price",
+        required=False,
+        type=float,
+        dest="stop_price",
+        help="Stop trigger price (required for STOP_LIMIT)"
     )
     parser.add_argument(
         "--test-connection",
@@ -55,7 +61,8 @@ def main():
 
     logger.info(
         f"CLI called → symbol={args.symbol}, side={args.side}, "
-        f"type={args.order_type}, qty={args.qty}, price={args.price}"
+        f"type={args.order_type}, qty={args.qty}, "
+        f"price={args.price}, stop_price={args.stop_price}"
     )
 
     try:
@@ -64,7 +71,7 @@ def main():
         binance = BinanceClient()
         client  = binance.get_client()
 
-        # Step 2: If user just wants to test connection
+        # Step 2: Test connection only
         if args.test_connection:
             binance.test_connection()
             return
@@ -76,7 +83,8 @@ def main():
             side       = args.side,
             order_type = args.order_type,
             quantity   = args.qty,
-            price      = args.price
+            price      = args.price,
+            stop_price = args.stop_price
         )
 
         # Step 4: Place the order
@@ -86,20 +94,18 @@ def main():
             side       = args.side,
             order_type = args.order_type,
             quantity   = args.qty,
-            price      = args.price
+            price      = args.price,
+            stop_price = args.stop_price
         )
 
     except ValueError as e:
-        # Validation errors — bad input from user
         logger.warning(f"Validation error: {e}")
         print(f"\n⚠️  Input Error: {e}")
         sys.exit(1)
 
     except Exception as e:
-        # Everything else — already logged inside the function that raised it
         sys.exit(1)
 
 
 if __name__ == "__main__":
     main()
-    

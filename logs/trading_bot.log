@@ -16,3 +16,10 @@
 2026-05-03 11:23:14 | INFO     | validators | Validation passed: symbol=BTCUSDT, side=BUY, type=MARKET, qty=0.001, price=None
 2026-05-03 11:23:30 | INFO     | client | BinanceClient initialized. Connected to Futures Testnet.
 2026-05-03 11:23:30 | INFO     | validators | Validation passed: symbol=BTCUSDT, side=BUY, type=LIMIT, qty=0.001, price=50000.0
+2026-05-03 11:27:58 | INFO     | client | BinanceClient initialized. Connected to Futures Testnet.
+2026-05-03 11:27:58 | INFO     | validators | Validation passed: symbol=BTCUSDT, side=SELL, type=STOP_LIMIT, qty=0.001, price=54800.0, stop_price=55000.0
+2026-05-03 11:27:59 | ERROR    | orders | BinanceAPIException: code=400, message=Order's notional must be no smaller than 100 (unless you choose reduce only).
+2026-05-03 11:29:33 | INFO     | client | BinanceClient initialized. Connected to Futures Testnet.
+2026-05-03 11:29:33 | INFO     | validators | Validation passed: symbol=BTCUSDT, side=SELL, type=STOP_LIMIT, qty=0.003, price=54800.0, stop_price=55000.0
+2026-05-03 11:29:50 | INFO     | client | BinanceClient initialized. Connected to Futures Testnet.
+2026-05-03 11:29:50 | WARNING  | cli | Validation error: Stop price is required for STOP_LIMIT orders. Use --stop-price.

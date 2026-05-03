@@ -6,18 +6,20 @@ from bot.logging_config import setup_logger
 logger = setup_logger("orders")
 
 
-def place_order(client, symbol: str, side: str,
-                order_type: str, quantity: float, price: float = None) -> dict:
+def place_order(client, symbol: str, side: str, order_type: str,
+                quantity: float, price: float = None,
+                stop_price: float = None) -> dict:
     """
-    Places a MARKET or LIMIT order on Binance Futures Testnet.
+    Places a MARKET, LIMIT or STOP_LIMIT order on Binance Futures Testnet.
 
     Args:
-        client    : the raw Binance client from BinanceClient.get_client()
-        symbol    : e.g. "BTCUSDT"
-        side      : "BUY" or "SELL"
-        order_type: "MARKET" or "LIMIT"
-        quantity  : how much to buy/sell
-        price     : required for LIMIT orders
+        client     : raw Binance client from BinanceClient.get_client()
+        symbol     : e.g. "BTCUSDT"
+        side       : "BUY" or "SELL"
+        order_type : "MARKET", "LIMIT" or "STOP_LIMIT"
+        quantity   : how much to buy/sell
+        price      : required for LIMIT and STOP_LIMIT
+        stop_price : required for STOP_LIMIT (the trigger price)
 
     Returns:
         dict: the full response from Binance
@@ -31,13 +33,23 @@ def place_order(client, symbol: str, side: str,
     params = {
         "symbol"  : symbol,
         "side"    : side,
-        "type"    : order_type,
         "quantity": quantity,
     }
 
-    if order_type == "LIMIT":
+    if order_type == "MARKET":
+        params["type"] = "MARKET"
+
+    elif order_type == "LIMIT":
+        params["type"]        = "LIMIT"
         params["price"]       = price
-        params["timeInForce"] = "GTC"  # GTC = Good Till Cancelled
+        params["timeInForce"] = "GTC"
+
+    elif order_type == "STOP_LIMIT":
+        # Binance API name for Stop-Limit is STOP
+        params["type"]        = "STOP"
+        params["price"]       = price
+        params["stopPrice"]   = stop_price
+        params["timeInForce"] = "GTC"
 
     # --- Log what we are about to send ---
     logger.info(f"Placing order → {params}")
@@ -46,12 +58,14 @@ def place_order(client, symbol: str, side: str,
     print("\n" + "="*45)
     print("         📋 ORDER REQUEST SUMMARY")
     print("="*45)
-    print(f"  Symbol    : {symbol}")
-    print(f"  Side      : {side}")
-    print(f"  Type      : {order_type}")
-    print(f"  Quantity  : {quantity}")
+    print(f"  Symbol     : {symbol}")
+    print(f"  Side       : {side}")
+    print(f"  Type       : {order_type}")
+    print(f"  Quantity   : {quantity}")
     if price:
-        print(f"  Price     : {price}")
+        print(f"  Price      : {price}")
+    if stop_price:
+        print(f"  Stop Price : {stop_price}")
     print("="*45)
 
     try:
@@ -70,24 +84,23 @@ def place_order(client, symbol: str, side: str,
         print(f"  Executed Qty : {response.get('executedQty')}")
         avg_price = response.get('avgPrice') or response.get('price', 'N/A')
         print(f"  Avg Price    : {avg_price}")
+        if response.get('stopPrice'):
+            print(f"  Stop Price   : {response.get('stopPrice')}")
         print("="*45 + "\n")
 
         return response
 
     except BinanceAPIException as e:
-        # Binance returned an error (wrong symbol, low balance etc.)
         logger.error(f"BinanceAPIException: code={e.status_code}, message={e.message}")
         print(f"\n❌ Binance API Error: {e.message}")
         raise
 
     except BinanceRequestException as e:
-        # Network or connection problem
         logger.error(f"BinanceRequestException (network issue): {e}")
         print(f"\n❌ Network Error: {e}")
         raise
 
     except Exception as e:
-        # Any other unexpected error
         logger.error(f"Unexpected error while placing order: {e}")
         print(f"\n❌ Unexpected Error: {e}")
         raise
