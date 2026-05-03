@@ -1,0 +1,7 @@
+binance trading bot api keys
+
+API Key
+JHvqBYmfSYICxLcAuLVKkOF5P0jdwYJpKwBKTNll0q23yZCDbbznLDCwVenMbm4b
+
+Secret Key
+YQ52OBnWV8hfSVEobgZZqP3g39Ufp5m27qLIWQGFFR25aJm8NIuL4azRmsNgsTAg
