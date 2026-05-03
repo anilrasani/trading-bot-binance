@@ -56,6 +56,8 @@ Api Key:JHv*****znLDCwVenMbm4b
 
 python cli.py --symbol BTCUSDT --side BUY --type MARKET --qty 0.001 --test-connection
 
+python cli.py --symbol BTCUSDT --side BUY --type MARKET --qty 0.001
+
 Expected output:
 
 🔌 Connecting to Binance Futures Testnet...
@@ -84,6 +86,8 @@ Avg Price    : 50000.00
 ### Place a LIMIT order
 python cli.py --symbol BTCUSDT --side BUY --type LIMIT --qty 0.001 --price 50000
 
+python cli.py --symbol BTCUSDT --side BUY --type LIMIT --qty 0.001 --price 50000
+
 Expected output:
 🔌 Connecting to Binance Futures Testnet...
 🔍 Validating your inputs...
@@ -103,6 +107,35 @@ Avg Price    : 50000
 
 ---
 
+### Place a STOP_LIMIT order
+
+
+python cli.py --symbol BTCUSDT --side SELL --type STOP_LIMIT --qty 0.003 --price 54800 --stop-price 55000
+
+python cli.py --symbol BTCUSDT --side SELL --type STOP_LIMIT --qty 0.003 --price 54800 --stop-price 55000
+
+
+
+
+Expected output:
+📋 ORDER REQUEST SUMMARY
+Symbol     : BTCUSDT
+Side       : SELL
+Type       : STOP_LIMIT
+Quantity   : 0.003
+Price      : 54800.0
+Stop Price : 55000.0
+✅ ORDER PLACED SUCCESSFULLY!
+Order ID     : 123456789
+Status       : NEW
+Executed Qty : 0.0
+Stop Price   : 55000.0
+
+> Note: Order value must be at least $100. 
+> qty × price must be >= 100
+
+---
+
 ### Place a SELL order
 python cli.py --symbol BTCUSDT --side SELL --type MARKET --qty 0.001
 
@@ -114,6 +147,7 @@ Expected:
 ⚠️  Input Error: Price is required for LIMIT orders. Use --price.
 
 ---
+
 
 ## 📋 All Arguments
 

@@ -5,3 +5,57 @@ JHvqBYmfSYICxLcAuLVKkOF5P0jdwYJpKwBKTNll0q23yZCDbbznLDCwVenMbm4b
 
 Secret Key
 YQ52OBnWV8hfSVEobgZZqP3g39Ufp5m27qLIWQGFFR25aJm8NIuL4azRmsNgsTAg
+
+
+
+Extra test cases — run all of these!
+MARKET orders
+cmdpython cli.py --symbol BTCUSDT --side BUY --type MARKET --qty 0.001
+cmdpython cli.py --symbol BTCUSDT --side SELL --type MARKET --qty 0.001
+cmdpython cli.py --symbol ETHUSDT --side BUY --type MARKET --qty 0.01
+
+LIMIT orders
+cmdpython cli.py --symbol BTCUSDT --side BUY --type LIMIT --qty 0.002 --price 50000
+cmdpython cli.py --symbol BTCUSDT --side SELL --type LIMIT --qty 0.002 --price 70000
+cmdpython cli.py --symbol ETHUSDT --side BUY --type LIMIT --qty 0.05 --price 1800
+
+STOP_LIMIT orders
+cmdpython cli.py --symbol BTCUSDT --side SELL --type STOP_LIMIT --qty 0.003 --price 54800 --stop-price 55000
+cmdpython cli.py --symbol BTCUSDT --side BUY --type STOP_LIMIT --qty 0.003 --price 56000 --stop-price 55500
+
+Validation error tests
+Missing price for LIMIT:
+cmdpython cli.py --symbol BTCUSDT --side BUY --type LIMIT --qty 0.001
+Expected:
+⚠️  Input Error: Price is required for LIMIT orders. Use --price.
+
+Missing stop price for STOP_LIMIT:
+cmdpython cli.py --symbol BTCUSDT --side SELL --type STOP_LIMIT --qty 0.003 --price 54800
+Expected:
+⚠️  Input Error: Stop price is required for STOP_LIMIT orders. Use --stop-price.
+
+Invalid side:
+cmdpython cli.py --symbol BTCUSDT --side HOLD --type MARKET --qty 0.001
+Expected:
+⚠️  Input Error: Invalid side 'HOLD'. Must be BUY or SELL.
+
+Invalid order type:
+cmdpython cli.py --symbol BTCUSDT --side BUY --type WRONG --qty 0.001
+Expected:
+⚠️  Input Error: Invalid order type 'WRONG'. Must be MARKET, LIMIT or STOP_LIMIT.
+
+Zero quantity:
+cmdpython cli.py --symbol BTCUSDT --side BUY --type MARKET --qty 0
+Expected:
+⚠️  Input Error: Quantity must be greater than 0. Got: 0.0
+
+Empty symbol:
+cmdpython cli.py --symbol "" --side BUY --type MARKET --qty 0.001
+Expected:
+⚠️  Input Error: Symbol cannot be empty. Example: BTCUSDT
+
+Invalid symbol with numbers:
+cmdpython cli.py --symbol BTC123 --side BUY --type MARKET --qty 0.001
+Expected:
+⚠️  Input Error: Invalid symbol 'BTC123'. Use letters only. Example: BTCUSDT
+
